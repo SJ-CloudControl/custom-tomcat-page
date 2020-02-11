@@ -1,0 +1,51 @@
+vi index.html
+
+```
+<h1>Tomcat has been containerized successfully</h1>
+
+This is a custom page
+```
+
+vi Dockerfile
+
+```
+FROM tomcat
+
+COPY index.html /usr/local/tomcat/webapps/sample/
+```
+
+docker build -t custom-tom .
+docker login
+
+Username:
+Password:
+
+docker push sreedevijun92/tomcat:2
+vi custom-tom.yml
+
+```
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: custom-tomcat
+spec:
+  selector:
+    matchLabels:
+      app: tomcat
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tomcat
+    spec:
+      containers:
+        - name: tomcat-cntr
+          image: sreedevijun92/tomcat:2
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+```
+
+
+
+
