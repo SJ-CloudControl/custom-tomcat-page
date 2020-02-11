@@ -21,6 +21,8 @@ Username:
 Password:
 
 docker push sreedevijun92/tomcat:2
+docker run --rm -p 8080:80 sreedevijun92/tomcat:2
+
 vi custom-tom.yml
 
 ```
@@ -46,6 +48,12 @@ spec:
               protocol: TCP
 ```
 
+kubectl create namespace sreedevikube
+kubectl create -f custom-tom.yml -n sreedevikube
+kubectl expose deployment custom-tomcat --type=NodePort --name=sample-page -n sreedevikube
+kubectl get pods -n sreedevikube
+kubectl describe svc  -n sreedevikube
+curl http://<public_IP>:nodeport/sample/
 
 
 
